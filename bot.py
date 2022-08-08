@@ -8,9 +8,9 @@ import string # to process standard python strings
 import warnings
 import numpy as np
 import pymysql
-from test import *
+from NLP import *
 from mail import *
-from id import *
+from trait_img import *
 from datetime import date
 
 db=pymysql.connect(host='localhost',user='root',password='Ihsan@123',database='ram')
@@ -144,7 +144,7 @@ def bot():
 
 	elif (greetingFr(incoming_msg)):
 		make_fr()
-		output = 'bonjour! '+'\U0001F603' + ' Je suis votre assistant virtuel'+ ' \nSVP entrez votre id!'
+		output = 'bonjour! '+'\U0001F603' + ' Je suis votre assistant virtuel'+ ' \nSVP insérer une photo de votre badge!'
 		deleteId()
 		makeFlase()
 
@@ -159,7 +159,7 @@ def bot():
 		 code = cursor.fetchone()
 		 if(code != None):
 			 output = response(str(incoming_msg))
-		 if(not is_Fr()) :
+		 elif(not is_Fr()) :
 			 insertId(output)
 			 sql = "SELECT idcode FROM code "
 			 cursor.execute(sql)
@@ -169,6 +169,16 @@ def bot():
 			 x = cursor.fetchone()
 			 output = 'hi ' + str(x[0]) + ' ' + str(x[1]) 
 			 output = output + '\nhow can I help you?'
+		 else :
+			 insertId(output)
+			 sql = "SELECT idcode FROM code "
+			 cursor.execute(sql)
+			 code = cursor.fetchone()
+			 sql = "SELECT first_name,last_name  FROM employee WHERE Id =%s"
+			 cursor.execute(sql,code[0])
+			 x = cursor.fetchone()
+			 output = 'Bonjour ' + str(x[0]) + ' ' + str(x[1]) 
+			 output = output + '\nComment je peux vous aider?'
 
 
 	elif(incoming_msg.lower() in ENDING_INPUTS):
