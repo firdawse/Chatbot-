@@ -167,4 +167,112 @@ Thus, two words present in similar contexts will have closer vectors (in terms o
  
 
 ![](https://storage.googleapis.com/lds-media/images/cosine-similarity-vectors.original.jpg)
+Now let's see how we implement this staff 
+When our chatbot recieve a message from a user the whole NLP process assigned above happens to associete it  to the most compatible answer   
+from a long list of suggestions based principally on cosine similarity 
+``` python
+def response(user_response):
+robo_response=''
+sent_tokens.append(user_response)
+final_stopwords_list = stopwords.words('english') + stopwords.words('french')
+TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=final_stopwords_list
+tfidf =TfidfVec.fit_transform(sent_tokens)
+vals = cosine_similarity(tfidf[-1], tfidf)
+idx=vals.argsort()[0][-2]
+flat = vals.flatten()
+flat.sort()
+req_tfidf = flat[-2]
+sent_tokens.remove(user_response)
+if(req_tfidf==0):
+robo_response=robo_response+"I am sorry! I don't understand you , can you specify"
+return robo_response
+else:
+robo_response = robo_response+sent_tokens[idx]
+return robo_response
+```
+## Text detection from images using EasyOCR:
+### What is OCR?
+
+OCR is formerly known as  **Optical Character Recognition**  which is revolutionary for the digital world nowadays. OCR is actually a complete process under which the **images/documents**  which are present in a digital world are processed and from the text are being processed out as normal  **editable text**.
+
+### Purpose of OCR
+
+OCR is a technology that enables you to convert different types of documents, such as  **scanned paper documents, PDF files, or images**  captured by a digital camera into  **editable and searchable data.**
+
+### What is EasyOCR?
+
+EasyOCR is actually a python package that holds  **PyTorch as a backend handler**. EasyOCR like any other OCR(tesseract of Google or any other) detects the text from images but in my reference, while using it I found that it is the most  **straightforward**  way to detect text from images also when high end deep learning library(PyTorch) is supporting it in the backend which makes it accuracy more credible.  
+## 1. Install core dependencies
+
+-   ### Pytorch
+    
+
+Installing PyTorch as a complete package can be a little tricky so I would recommend traversing through the official site of  **PyTorch**. When you will open its official site then that’s what you will see in its interface as in the image below.
+
+![Install core dependencies easyocr](https://editor.analyticsvidhya.com/uploads/929991.png)
+
+Image Source:  [**PyTorch**](https://pytorch.org/)
+
+Now, if you will look closely at the above image one can find out that there are numerous options available for us to choose from and get the command most compatible according to our choices.
+
+> **Let me show you a representation of what I’m trying to mention!**.
+
+![Install core dependencies pytorch](https://editor.analyticsvidhya.com/uploads/270192.2.2.png)
+
+Image Source:  [**PyTorch**](https://pytorch.org/)
+
+In the above representation, one can notice that I have chosen the  **Package: pip**  and  **Compute platform: CPU**  and based on my choices I got the command as –  **pip install torch torchvision torchaudio**. After getting this command it would be like walking on a cake, simply just run this command on your command prompt and your PyTorch library will be installed successfully.
+
+-   ### EasyOCR
+    
+
+After installing the PyTorch library successfully it’s quite easy to install  **the EasyOCR**  library, one just has to run the following command:
+
+pip3 install easyocr
+
+> Then your command prompt interface will be like:
+
+![command prompt easyocr](https://editor.analyticsvidhya.com/uploads/631123.png)
+
+## 2. Importing Libraries
+
+import os
+import easyocr
+import cv2
+from matplotlib import pyplot as plt
+import numpy as np
+
+### 3. Reading images
+
+-   **Taking an online image:**  Here we will take an image from  **a URL**  (online)
+
+IMAGE_PATH = 'https://blog.aspose.com/wp-content/uploads/sites/2/2020/05/Perform-OCR-using-C.jpg'
+
+In the above code snippet, one can notice that the  **IMAGE_PATH**  holds the  **URL**  of the image.
+
+-   **Taking image as input locally**: Here we will take an image from the local system.
+
+>IMAGE_PATH = 'Perform-OCR.jpg'
+
+In the above code snippet, one can notice that I have taken the  **image locally**  i.e. from the local system.
+
+## 4. Extracting text from the image
+
+-   **English text detection**
+
+>reader = easyocr.Reader(['en'])
+result = reader.readtext(IMAGE_PATH,paragraph="False")
+result
+
+**Output:**
+
+>[[[[95, 71], [153, 71], [153, 107], [95, 107]], **'OCR'**]]  
+
+Adding an image for your preference.
+
+![Extracting text from the image EasyOCR](https://editor.analyticsvidhya.com/uploads/92382Perform-OCR.jpg)
+
+Image Source:  [LaptrinhX](https://laptrinhx.com/perform-ocr-on-images-using-c-ocr-library-3100762731/)
+
+Now finally, we have extracted the text from the given image
 
