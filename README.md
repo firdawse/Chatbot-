@@ -274,5 +274,26 @@ Adding an image for your preference.
 
 Image Source:  [LaptrinhX](https://laptrinhx.com/perform-ocr-on-images-using-c-ocr-library-3100762731/)
 
-Now finally, we have extracted the text from the given image
+Now finally, we have extracted the text from the given image 
+Now Let's see a concretisation of those functionalities in our chatbot !
+- FIRST whe should detect that a picture has been sent from the user and then get the link from it 
+   ``` python
+  media_msg = request.form.get('NumMedia')
+  if(media_msg == '1'):
+      path = request.form.get('MediaUrl0')
+  ```
+  - Now that the link is ours we can process the image and then extract some useful information ,for our case we had to extract the id of employee
+   ``` python
+    def recognize_text(img_path):
+  '''loads an image and recognizes text.'''
+  req = Request(img_path, headers={'User-Agent': 'Mozilla/5.0'})
+  webpage = urlopen(req).read()
+  reader = easyocr.Reader(['en'])
+  return reader.readtext(webpage)
+   ```
+and yes it works all we need to do now is detecting the   
+location of the targeted information  .
+
+
+
 
