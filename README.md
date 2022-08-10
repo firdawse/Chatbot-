@@ -116,4 +116,55 @@ This involves using deep learning, such as LSTM-based seq2seq models, to train c
 For our case we choosed to work on a rule based chtabot but using some NLP tools  to make it a little smarter.
 ## NLP Concept
 
+NLP methods are at the heart of how today's Chatbots work. Although these systems are not totally perfect, they can now easily handle standard tasks such as informing customers about products or services, answering their questions, etc. They are used by several channels, including the Internet, applications and messaging platforms. The opening of the Facebook Messenger platform to chatbots in 2016 contributed to their development.
+
+ ### What are the main methods used in NLP? 
+Overall, we can distinguish two essential aspects to any NLP problem: 
+- The “linguistic” part, which consists of preprocessing and transforming the input information into a usable dataset. 
+- The “automatic learning” or “Data Science” part, which concerns the application of Machine Learning or Deep Learning models to this dataset.
+
+#### The pre-processing phase: from text to data
+Suppose you want to be able to determine whether an email is spam or not, just from its content. To this end, it is essential to transform the raw data (the text of the email) into usable data.
+
+Among the main steps are:
+
+- **Cleaning**: Variable depending on the data source, this phase consists of performing tasks such as deleting urls, emoji, etc.
+Data normalization:
+- **Tokenization**, or splitting text into multiple pieces called tokens.
+Example: “You will find the document in question attached”; "You", "find", "as an attachment", "the document", "in question".
+- **Stemming** the same word can be found in different forms depending on gender (masculine feminine), number (singular, plural), person (me, you, them…) etc. Stemming generally refers to the crude heuristic process of cutting out the end of words in order to keep only the root of the word.
+Example: “find” -> “find”
+- **Lemmatization**: this consists of carrying out the same task but using a vocabulary and a detailed analysis of the construction of words. Lemmatization therefore makes it possible to remove only the inflexible endings and thus to isolate the canonical form of the word, known as the lemma. Example: “find” -> find
+- **Other operations**: deletion of numbers, punctuation, symbols and stopwords, conversion to lowercase.
+In order to be able to apply Machine Learning methods to problems relating to natural language, it is essential to transform textual data into numerical data.
+There are several approaches, the main ones being:
+
+>- **Term-Frequency (TF)**: this method consists of counting the number of occurrences of tokens present in the corpus for each text. Each text is then represented by a vector of occurrences. We generally speak of Bag-Of-Word.
+  ![NLP](https://datascientest.com/wp-content/uploads/2020/07/Capture-d%E2%80%99e%CC%81cran-2020-07-19-a%CC%80-11.17.46.png)
+Representation of vectors from the Term-Frequency (TF) method.
+
+However, this approach has a major drawback: some words are by nature more used than others, which can lead the model to erroneous results.
+
+>- **Term Frequency-Inverse Document Frequency (TF-IDF)**: this method consists of counting the number of occurrences of the tokens present in the corpus for each text, which is then divided by the total number of occurrences of these same tokens in the whole body.
+For the term x present in the document y, we can define its weight by the following relation:
+![NLP formule](https://datascientest.com/wp-content/uploads/2020/07/Capture-d%E2%80%99e%CC%81cran-2020-07-19-a%CC%80-10.53.53.png)
+
+Where :
+- tƒx,y is the frequency of the term x in y;
+- dƒx is the number of documents containing x;
+- N is the total of documents.
+This approach therefore makes it possible to obtain for each text a vectorial representation which comprises weight vectors and no longer occurrences.
+
+The effectiveness of these methods differs depending on the application case. However, they have two main limitations:
+
+The richer the vocabulary of the corpus, the larger the size of the vectors, which can represent a problem for the learning models used in the next step.
+Counting the occurrence of words does not make it possible to account for their arrangement and therefore the meaning of sentences.
+There is another approach that can remedy these problems: Word Embedding. It consists in constructing vectors of fixed size which take into account the context in which the words are found.
+
+Thus, two words present in similar contexts will have closer vectors (in terms of vector distance). This then makes it possible to capture both semantic, syntactic or thematic similarities of the words , for this many methods exists such as :
+- _**Cosine similarity** which is a metric used to measure how similar the documents are irrespective of their size. Mathematically, it measures the cosine of the angle between two vectors projected in a multi-dimensional space._
+ The cosine similarity is advantageous because even if the two similar documents are far apart by the Euclidean distance (due to the size of the document), chances are they may still be oriented closer together. The smaller the angle, higher the cosine similarity.
+ 
+![cosine-similarity-vectors.jpg](https://storage.googleapis.com/lds-media/images/cosine-similarity-vectors.2e16d0ba.fill-800x160.jpg)
+
 
