@@ -2,12 +2,22 @@
 
 ### A [chatbot](https://en.wikipedia.org/wiki/Chatbot) is a software application that is able to conduct a conversation with a human user through written or spoken language. The level of “intelligence” among chatbots varies greatly. While some chatbots have a fairly basic understanding of language, others employ sophisticated artificial intelligence (AI) and machine learning (ML) algorithms to achieve an almost human conversational level.
 
+### Table of content
+
+1.  Requirement
+2.  Set up of the WhatsApp chatbot
+    -   Create a Flask chatbot service
+    -    Testing the WhatsApp chatbot
+4.  Chatbot logic
+    -   NLP Concept
+    -    Text detection from images
+         - Install core dependencies
+         - Importing Libraries
+         - Reading images
+         - Extracting text from the image
+     - Sending mails
 
 ###  Requirements :
-
-
-
->
 > - Python 3.6 or newer. If your operating system does not provide a Python interpreter, you can go to  [python.org](https://python.org/)  to download an installer.
 > - Profits were higher than ever.
 > -  [Flask](https://www.palletsprojects.com/p/flask/). We will create a web application that responds to incoming WhatsApp messages with it.
@@ -167,6 +177,7 @@ Thus, two words present in similar contexts will have closer vectors (in terms o
  
 
 ![](https://storage.googleapis.com/lds-media/images/cosine-similarity-vectors.original.jpg)
+
 Now let's see how we implement this staff 
 When our chatbot recieve a message from a user the whole NLP process assigned above happens to associete it  to the most compatible answer   
 from a long list of suggestions based principally on cosine similarity 
@@ -291,9 +302,24 @@ Now Let's see a concretisation of those functionalities in our chatbot !
   reader = easyocr.Reader(['en'])
   return reader.readtext(webpage)
    ```
-and yes it works all we need to do now is detecting the   
-location of the targeted information  .
+and yes it works all we need to do now is detecting the location of the targeted information  .
 
+## Sending mail 
+Our chatbot gives the user the possibility to make an administrative request which should be sent to the responsible service via ana email to do that we use the (SMTP) protocol, which handles sending e-mail and routing e-mail between mail servers.
+Python provides **smtplib** module, which defines an SMTP client session object that can be used to send mail to any Internet machine with an SMTP or ESMTP listener daemon.
 
+Here is a simple way to send one e-mail using Python script.
+``` python 
+import smtplib
 
+def sendmailWork ( first_name, last_name, type):
+server = smtplib.SMTP('smtp.gmail.com',587)
+server.starttls()
+server.login('Your Mail','PASSWORD')
+subject = 'Administrative request'
+body = first_name + ' '+last_name + ' is asking for '+type
+msg = f'Subject: {subject}\n\n{body}'
+server.sendmail('Receiver Mail','Sender Mail ,msg )
+print("login success")
+```
 
