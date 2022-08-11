@@ -304,7 +304,7 @@ Now Let's see a concretisation of those functionalities in our chatbot !
    ```
 and yes it works all we need to do now is detecting the location of the targeted information  .
 
-## Sending mail 
+## Sending mails 
 Our chatbot gives the user the possibility to make an administrative request which should be sent to the responsible service via ana email to do that we use the (SMTP) protocol, which handles sending e-mail and routing e-mail between mail servers.
 Python provides **smtplib** module, which defines an SMTP client session object that can be used to send mail to any Internet machine with an SMTP or ESMTP listener daemon.
 
