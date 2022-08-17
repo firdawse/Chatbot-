@@ -22,9 +22,9 @@ mysql.init_app(app)
 #code = None
 # Keyword Matching
 GREETING_INPUTS_ENG = ("hello", "hi", "greetings", "what's up","hey",)
-GREETING_INPUTS_FR = ("bonjour","bonsoir","cc",)
+GREETING_INPUTS_FR = ("bonjour","bonsoir","cc","salut",)
 THANKS_INPUTS = ("thank you", 'bye', "thanks","merci", "merci beacoup",)
-ENDING_INPUTS = ("good bye", 'bye',)
+ENDING_INPUTS = ("good bye", 'bye','by',)
 GREETING_RESPONSES = ["hi", "hey", "hi there", "hello", "I am glad! You are talking to me"]
 
 def greetingEng(sentence):
@@ -141,8 +141,10 @@ def bot():
 		insertId('hi')
 		deleteId()
 		makeFlase()
+		make_eng()
 
 	elif (greetingFr(incoming_msg)):
+		make_eng()
 		make_fr()
 		output = 'bonjour! '+'\U0001F603' + ' Je suis votre assistant virtuel'+ ' \nSVP insérer une photo de votre badge!'
 		deleteId()
@@ -151,7 +153,7 @@ def bot():
 	elif(media_msg == '1'):
 		 path = request.form.get('MediaUrl0')
 		 result= recognize_text(path)
-		 output = result[7][1]
+		 output = result[6][1]
 		 makeFlase()
 		 cursor = db.cursor()
 		 sql = "SELECT idcode FROM code"
@@ -168,7 +170,7 @@ def bot():
 			 cursor.execute(sql,code[0])
 			 x = cursor.fetchone()
 			 output = 'hi ' + str(x[0]) + ' ' + str(x[1]) 
-			 output = output + '\nhow can I help you?'
+			 output = output + '\nhow can I help you?\n1 - Absence\n2 - Administrative request\n3 - Vacation'
 		 else :
 			 insertId(output)
 			 sql = "SELECT idcode FROM code "
@@ -178,7 +180,7 @@ def bot():
 			 cursor.execute(sql,code[0])
 			 x = cursor.fetchone()
 			 output = 'Bonjour ' + str(x[0]) + ' ' + str(x[1]) 
-			 output = output + '\nComment je peux vous aider?'
+			 output = output + '\nComment je peux vous aider?\n1 - Absence\n2 - Demande Administrative \n3 - Congé'
 
 
 	elif(incoming_msg.lower() in ENDING_INPUTS):
@@ -189,7 +191,6 @@ def bot():
 	 else :
 		 output = 'Good bye , have a good day'
 	 make_eng()
-
 	elif(incoming_msg.lower() in THANKS_INPUTS):
 	 makeFlase()
 	 if(is_Fr()):
@@ -203,7 +204,7 @@ def bot():
 		return str(resp)
 
 
-	elif(response(incoming_msg)=='absence.'):
+	elif((response(incoming_msg)=='absence.' or incoming_msg == '1')and not isTrue()):
 		 output = ""
 		 cursor = db.cursor()
 		 makeFlase()
@@ -221,7 +222,7 @@ def bot():
 				 output = output + str(i+1) +'-  ' +str(x[i][0]).replace('((datetime.date(', '') + '\n'
 			 cursor.close()
 
-	elif(response(incoming_msg) == 'holiday vacation annual leave.'):
+	elif((response(incoming_msg) == 'holiday vacation annual leave.' or incoming_msg == '3') and not isTrue()):
 		 output = ""
 		 cursor = db.cursor()
 		 makeFlase()
@@ -239,7 +240,7 @@ def bot():
 				 output = output + str(i+1) +'- Start date :' +str(x[i][0]).replace('((datetime.date(', '') + '    durée : '+ str(x[i][1]) + 'days\n'
 			 cursor.close()
 
-	elif(response(incoming_msg) == 'vacances congé annuel vacance conge.'):
+	elif((response(incoming_msg) == 'vacances congé annuel vacance conge congés.' or incoming_msg == '3')and not isTrue()):
 		 output = ""
 		 cursor = db.cursor()
 		 makeFlase()
@@ -297,9 +298,9 @@ def bot():
 				 output = output + '\n-' + str(x[i][0]) +'\tétat : '+ str(x[i][1]) + '\tdate : '+ str(x[i][2]).replace('((datetime.date(', '')
 			 cursor.close()
 
-	elif(response(incoming_msg)=='administrative request.'and codeExist()):
+	elif((response(incoming_msg)=='administrative request.'or incoming_msg == '2')and codeExist() and not isTrue()):
 		makeTrue()
-		output = 'what type of request you are looking for :\n-work certificate\n-holiday certificate\n-Salary report' 
+		output = 'what type of request you are looking for :\n1-work certificate\n2-holiday certificate\n3-Salary report' 
 	elif(isTrue() and codeExist() and not is_Fr()):
 		 cursor = db.cursor()
 		 sql = "SELECT idcode FROM code "
@@ -308,17 +309,17 @@ def bot():
 		 sql = "SELECT first_name,last_name  FROM employee WHERE Id =%s"
 		 cursor.execute(sql,code)
 		 x = cursor.fetchone()
-		 if('salary report'in incoming_msg):
+		 if('salary report'in incoming_msg or incoming_msg == '3'):
 			 sendmailSalary(str(x[0]),str(x[1]),incoming_msg) 
 			 output = 'your request has been considered successfully !'
 			 insertDoc(code,incoming_msg)
 			 makeFlase()
-		 elif('work certificate'in incoming_msg):
+		 elif('work certificate'in incoming_msg or incoming_msg == '1'):
 			 sendmailWork(str(x[0]),str(x[1]),incoming_msg) 
 			 output = 'your request has been considered successfully !'
 			 insertDoc(code,incoming_msg)
 			 makeFlase()
-		 elif('holiday certificate'in incoming_msg):
+		 elif('holiday certificate'in incoming_msg or incoming_msg == '2'):
 			 sendmailHoliday(str(x[0]),str(x[1]),incoming_msg) 
 			 output = 'your request has been considered successfully !'
 			 insertDoc(code,incoming_msg)
@@ -328,9 +329,9 @@ def bot():
 			 
 		 cursor.close()
 
-	elif(response(incoming_msg)=='effectuer une demande administrative.'and codeExist()):
+	elif((response(incoming_msg)=='effectuer une demande administrative.' or incoming_msg == '2')and codeExist() and not isTrue()):
 		makeTrue()
-		output = 'Quel type de demande cherchez vous :\n-Certificat de travail\n-Certificat de congé\n-Rapport de salaire' 
+		output = 'Quel type de demande cherchez vous :\n1-Certificat de travail\n2-Certificat de congé\n3-Rapport de salaire' 
 	elif(isTrue() and codeExist()):
 		 cursor = db.cursor()
 		 sql = "SELECT idcode FROM code "
@@ -339,54 +340,28 @@ def bot():
 		 sql = "SELECT first_name,last_name  FROM employee WHERE Id =%s"
 		 cursor.execute(sql,code)
 		 x = cursor.fetchone()
-		 if('certificat de travail'in incoming_msg):
+		 if('certificat de travail'in incoming_msg or incoming_msg == '1'):
 			 sendmailSalary(str(x[0]),str(x[1]),incoming_msg) 
 			 output = 'Votre demande a été bien prise en considération !'
 			 insertDoc(code,incoming_msg)
 			 makeFlase()
-		 elif('certificat de congé'in incoming_msg.lower()):
+		 elif('certificat de congé'in incoming_msg.lower() or incoming_msg == '2'):
 			 sendmailWork(str(x[0]),str(x[1]),incoming_msg) 
 			 output = 'Votre demande a été bien prise en considération !'
 			 insertDoc(code,incoming_msg)
 			 makeFlase()
-		 elif('rapport de salaire'in incoming_msg.lower()):
+		 elif('rapport de salaire'in incoming_msg.lower() or incoming_msg == '3'):
 			 sendmailHoliday(str(x[0]),str(x[1]),incoming_msg) 
 			 output = 'Votre demande a était bien prise en considération !'
 			 insertDoc(code,incoming_msg)
 			 makeFlase()
 		 else :
 			 output = 'Pouvez vous bien précisez quel type de demande voulez vous SVP ? '
-			 
 		 cursor.close()
+	else :
+			output = "I am sorry! I don't understand you , can you specify"
 
-	else:
-		 makeFlase()
-		 cursor = db.cursor()
-		 sql = "SELECT idcode FROM code"
-		 cursor.execute(sql)
-		 code = cursor.fetchone()
-		 if(code != None):
-			 output = response(str(incoming_msg))
-		 elif(not is_Fr()) :
-			 insertId(incoming_msg)
-			 sql = "SELECT idcode FROM code "
-			 cursor.execute(sql)
-			 code = cursor.fetchone()
-			 sql = "SELECT first_name,last_name  FROM employee WHERE Id =%s"
-			 cursor.execute(sql,code[0])
-			 x = cursor.fetchone()
-			 output = 'hi ' + str(x[0]) + ' ' + str(x[1]) 
-			 output = output + '\nhow can I help you?'
-		 else :
-			 insertId(incoming_msg)
-			 sql = "SELECT idcode FROM code "
-			 cursor.execute(sql)
-			 code = cursor.fetchone()
-			 sql = "SELECT first_name,last_name  FROM employee WHERE Id =%s"
-			 cursor.execute(sql,code[0])
-			 x = cursor.fetchone()
-			 output = 'Bonjour ' + str(x[0]) + ' ' + str(x[1]) 
-			 output = output + '\nComment je peux vous aider?'
+
 
 	msg.body(str(output))
 	return str(resp)
