@@ -79,7 +79,7 @@ incoming_msg = request.values.get('Body', '').lower()
 ```
 ## Testing the WhatsApp chatbot
 
-Are you ready to test the chatbot? After you copy the above code into the  _bot.py_  file, start the chatbot by running  `python bot.py`, making sure you do this while the Python virtual environment is activated. The output should be something like this:
+Are you ready to test the chatbot? After you copy the above code into the  _bot.py_  file, start the chatbot by running  `python bot.py`. The output should be something like this:
 
 ```bash
 (whatsapp-bot-venv) $ python bot.py
