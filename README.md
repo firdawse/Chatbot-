@@ -19,7 +19,6 @@
 
 ###  Requirements :
 > - Python 3.6 or newer. 
-> - Profits were higher than ever.
 > -  [Flask](https://www.palletsprojects.com/p/flask/). We will create a web application that responds to incoming WhatsApp messages with it.
 >  -   A smartphone with an active phone number and WhatsApp installed.
 >  -   A Twilio account. You can [create a free account](http://www.twilio.com/referral/7fB3Je)  . You can review the  [features and limitations of a free Twilio account](https://www.twilio.com/docs/usage/tutorials/how-to-use-your-free-trial-account).
