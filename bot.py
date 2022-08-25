@@ -49,6 +49,7 @@ def insertId(id):
 	 cursor.close()
 	 db.commit()
 
+# This function is used to indicate the 'aministrative request'  part 
 def makeTrue():
 	 cursor = db.cursor()
 	 sql = "INSERT INTO bool (num) VALUES (%s)"
@@ -83,6 +84,7 @@ def is_Fr():
 	 else :
 		 return True
 
+# this fuction is used to switch from english to french  
 def make_fr():
 	 cursor = db.cursor()
 	 sql = "INSERT INTO is_fr (num) VALUES (%s)"
@@ -90,7 +92,7 @@ def make_fr():
 	 cursor.close()
 	 db.commit()
 
-
+# this fuction is used to switch from french to english  
 def make_eng():
 	 cursor = db.cursor()
 	 sql = "DELETE FROM is_fr"
@@ -150,6 +152,7 @@ def bot():
 		deleteId()
 		makeFlase()
 
+# if the card is inserted 
 	elif(media_msg == '1'):
 		 path = request.form.get('MediaUrl0')
 		 result= recognize_text(path)
@@ -197,12 +200,6 @@ def bot():
 		 output='avec plaisir '+'\U0001F60A'+'!'
 	 else : 
 		 output = 'With pleasure '+'\U0001F60A'+ '!'
-
-
-	elif('pdf' in incoming_msg):
-		msg.media('http://www.africau.edu/images/default/sample.pdf')
-		return str(resp)
-
 
 	elif((response(incoming_msg)=='absence.' or incoming_msg == '1')and not isTrue()):
 		 output = ""
@@ -358,8 +355,10 @@ def bot():
 		 else :
 			 output = 'Pouvez vous bien précisez quel type de demande voulez vous SVP ? '
 		 cursor.close()
-	else :
+	elif(not is_Fr()) :
 			output = "I am sorry! I don't understand you , can you specify"
+	else :
+			output = "Pouvez vous préciser SVP  "
 
 
 
