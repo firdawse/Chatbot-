@@ -18,7 +18,7 @@
      - Sending mails
 
 ###  Requirements :
-> - Python 3.6 or newer. If your operating system does not provide a Python interpreter, you can go to  [python.org](https://python.org/)  to download an installer.
+> - Python 3.6 or newer. 
 > - Profits were higher than ever.
 > -  [Flask](https://www.palletsprojects.com/p/flask/). We will create a web application that responds to incoming WhatsApp messages with it.
 >  -   A smartphone with an active phone number and WhatsApp installed.
