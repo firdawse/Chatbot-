@@ -123,7 +123,8 @@ generative chatbots are able to formulate their own original responses based on 
 This involves using deep learning, such as LSTM-based seq2seq models, to train chatbots to be able to make decisions about the appropriate response to return.
 
 For our case we choosed to work on a rule based chtabot but using some NLP tools  to make it a little smarter are here is a simple architecture to make things clearer!.
-![](input (1).jpg)
+
+![architecture](input (1).jpg)
 ## NLP Concept
 
 NLP methods are at the heart of how today's Chatbots work. Although these systems are not totally perfect, they can now easily handle standard tasks such as informing customers about products or services, answering their questions, etc. They are used by several channels, including the Internet, applications and messaging platforms. The opening of the Facebook Messenger platform to chatbots in 2016 contributed to their development.
