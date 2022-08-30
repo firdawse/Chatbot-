@@ -2,6 +2,8 @@
 
 ### A [chatbot](https://en.wikipedia.org/wiki/Chatbot) is a software application that is able to conduct a conversation with a human user through written or spoken language. The level of “intelligence” among chatbots varies greatly. While some chatbots have a fairly basic understanding of language, others employ sophisticated artificial intelligence (AI) and machine learning (ML) algorithms to achieve an almost human conversational level.
 
+Here is a quick ![demostration]() of what we will work on :
+
 ### Table of content
 
 1.  Requirement
